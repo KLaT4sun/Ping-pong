@@ -35,6 +35,10 @@ game = True
 finish = False
 clock = time.Clock()
 FPS = 60
+speed_x = 3
+speed_y = 3
+
+
 
 font.init()
 font2 = font.SysFont('Arial',40)
@@ -43,6 +47,7 @@ win = font1.render('You win!',True,(0,215,0))
 lose = font1.render('You lose!',True,(215,0,0))
 raketkaLeft = Player('raketka.png',0,100,50,70,3)
 raketkaRight = Player('raketka.png',450,100,50,70,3)
+ball = GameSprite('ball.png',220,0,40,40,3)
 while game:
     for i in event.get():
         if i.type == QUIT:
@@ -53,5 +58,12 @@ while game:
         raketkaLeft.reset()
         raketkaRight.update_R()
         raketkaRight.reset()
+        ball.reset()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        if ball.rect.y > 250 or ball.rect.y < 0:
+            speed_y *= -1
+        if sprite.collide_rect(raketkaLeft,ball) or sprite.collide_rect(raketkaRight,ball):
+            speed_x *= -1
     clock.tick(FPS)
     display.update()
