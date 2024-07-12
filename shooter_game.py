@@ -16,15 +16,18 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image,(self.rect.x,self.rect.y))
 
 class Player(GameSprite):
-    def update(self):
+    def update_L(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_a] and self.rect.x > 0:
-            self.rect.x -= self.speed
-        if keys_pressed[K_d] and self.rect.x < 620:
-            self.rect.x += self.speed
-    def fire(self):
-        bullet = Bullet('bullet.png',self.rect.centerx,self.rect.top,15,20,-15)
-        bullets.add(bullet)
+        if keys_pressed[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys_pressed[K_s] and self.rect.y < 230:
+            self.rect.y += self.speed
+    def update_R(self):
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_UP] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys_pressed[K_DOWN] and self.rect.y < 230:
+            self.rect.y += self.speed
 
         
 
@@ -38,11 +41,17 @@ font2 = font.SysFont('Arial',40)
 font1 = font.SysFont('Arial',70)
 win = font1.render('You win!',True,(0,215,0))
 lose = font1.render('You lose!',True,(215,0,0))
+raketkaLeft = Player('raketka.png',0,100,50,70,3)
+raketkaRight = Player('raketka.png',450,100,50,70,3)
 while game:
     for i in event.get():
         if i.type == QUIT:
             game = False
     if finish != True:
         window.blit(background,(0,0))
+        raketkaLeft.update_L()
+        raketkaLeft.reset()
+        raketkaRight.update_R()
+        raketkaRight.reset()
     clock.tick(FPS)
     display.update()
